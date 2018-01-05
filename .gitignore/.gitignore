@@ -1,0 +1,11 @@
+# Backup and data files
+eg/eg.*
+*~
+*.bak
+*.off
+*.x
+x.*
+r
+x
+x?
+r?
