@@ -35,8 +35,8 @@ float Spannung = 0;
 float Kraft;
 int j=0;
 float sumVolt = 0; //für kalibrierung
-float offsetVolt = 0; //für kalibrierung
-int numCalibReadings = 100; //für kalibrierung
+float offsetVolt; //für kalibrierung
+int numCalibReadings = 10000; //für kalibrierung
 
 
 // Ermittlung Offset:
@@ -78,7 +78,7 @@ const boolean continuous = true;
 // Einstellungen Kraftmessung:
 // Hier werden die Parameter eingestellt, welche für die Kraftmessung nötig sind: f(x)=m*x+b
 // Empfindlichkeit m:
-const float m = 2; 
+const float m = 0.9152; 
 // Offset b: Dieser Wert mit betätigen der Tara Taste (Select) verändert.
 //float b = 2.1;
 int i=0; //counter for offset calculation
@@ -179,13 +179,13 @@ void setup() {
 
 void loop() {
 
-      if ( millis() >= range_time ){
-          int r =0;  
-          range_msg.range = getRange() / 100;
-          range_msg.header.stamp = nh.now();
-          pub_range.publish(&range_msg);
-          range_time =  millis() + 50;
-        }  
+//      if ( millis() >= range_time ){
+//          int r =0;  
+//          range_msg.range = getRange() / 100;
+//          range_msg.header.stamp = nh.now();
+//          pub_range.publish(&range_msg);
+//          range_time =  millis() + 50;
+//        }  
         
       if ((digitalRead(DRDY)) == LOW)
       {
@@ -200,7 +200,7 @@ void loop() {
         //  Serial.print(" "); Serial.println(Spannung);
       
 
-          Kraft = m*(Spannung - offsetVolt) * 9.81;
+          Kraft = m*(Spannung - offsetVolt - 0.89) * 9.81;
           Kraft = (float)((int)(Kraft * 100)) / 100;
 
 
